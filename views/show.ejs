@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="/stylesheets/show.css">
+
+	</head>
+	<body>
+			
+<div class="topnav">
+  <a class="active" href="/">Home</a>
+  <a href="/collections">All Images</a>
+  <a href="">Add Images</a>
+  <div class="search-container">
+    <form action="/action_page.php">
+      <input type="text" placeholder="Search.." name="search">
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+  </div>
+</div>
+		<div class="container">
+		<div class="cardtag" >
+			
+			<div style="text-align:center;" class="card" style="width: 25rem;">
+  <img  class="card-img-top" src="<%= image.image %>" alt="Card image cap">
+  <div class="card-body">
+    <h4 class="card-title">Stars: <%= image.stars.length %></h4>
+	  <% if(!currentUser){ %>
+	  	<p style="color:green;">
+			You must be logged in, to star an image
+	  </p>
+	  <% } %>
+	  <% var count = 0; %>
+	      <% if(currentUser){ %>
+	  
+	   <% image.stars.forEach(function(name){ %>
+	       <% if(name.author.username === currentUser.username){  %>
+		      <% count = 1; %>
+	     <% } %>
+	 <% }); %>
+	  <% } %>
+	  <% if(currentUser&&count == 0){%>
+	  <form action="/collections/<%= image._id %>/stars" method="POST">
+			<button style="" type="submit" class="btn btn-default "><i class="fa fa-star" aria-hidden="true"></i></button>
+	  </form>
+	  <% } %>
+	   <p style="margin-top:5px;" class="card-text"><%= image.description %></p>
+	  
+  </div>
+    
+	  
+    <div id="well"  class="well">
+		<form action="/collections/<%= image._id %>/comments" method="POST">
+			<input name="comment[text]" class="form-control" placeholder="add comment">
+			<button id="button"  type="submit" class="btn btn-primary ">Add Comment</button>
+		    
+		</form>
+		
+	<% image.comments.forEach(function(comment){ %>
+            <li class="list-group-item">
+			  <span class="pull-left"><a href="/users/<%= comment.author.id %>"><%= comment.author.username %></a></span>
+			  <span><%= comment.text %></span>
+			  <span class="pull-right"><%= comment.createdAt.toDateString() %></span>
+			<% if(currentUser&&comment.author.id.equals(currentUser._id)){%>
+				<form style="display:inline;" action="/collections/<%= image._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                    <button style="border:none; background:#fff;"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                </form>
+				<% } %>
+			</li>
+		<% }) %>
+	</div>
+  <div class="card-body">
+	  <% if(currentUser&&image.author.id.equals(currentUser._id)){%>
+              <form id="delete-form" action="/collections/<%= image._id %>?_method=DELETE" method="POST">
+            <button style="margin-bottom:10px;" class="btn  btn-danger">Delete</button>
+             </form>
+         <% } %>
+  </div>
+</div>
+			</div>
+		</div>
+	</body>
+</html>

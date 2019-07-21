@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Gallery</title>
+		 <link rel="stylesheet" href="/stylesheets/landing.css">
+		<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="/stylesheets/navbar.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	</head>
+	<body>
+			<header class="header">
+		<h1 class="logo"><a href="/"><i style="margin-right:7px;" class="fa fa-file-image-o" aria-hidden="true"></i>Gallery</a></h1>
+      <ul class="main-nav">
+          <li><a href="/GettingStarted">About</a></li>
+		  <% if(!currentUser){ %>
+		  <button style="margin-right:15px;" id="myBtn" >LOG IN</button>
+		  <div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+	  <span class="close">&times;</span>
+    <form action="/" method="POST" class="form-class" method="post">
+  <label>Username:</label>
+  <input placeholder="Type in your username.." type="text" name="username"/>
+
+  <label for="" >Password:</label>
+  <input  type="text" placeholder="Enter your password.." name="password"/>
+		<br>
+		<a style="color:#1565C0; font-size:12.5px; text-transform:lowercase;" class="register" href="/signup">Register</a><br>
+  <input type="submit" value="LOG IN"></input>	  
+</form>
+  </div>
+			  
+</div>
+		<%} else{ %>
+		  <li><a href="/users/<%= currentUser._id %>"><img height="19px" width="19px" src="<%= currentUser.imageurl %>"> <%= currentUser.username %></a></li>
+          <li><a href="/logout">Log Out</a></li>
+			<% } %>
+      </ul>
+	</header> 
+
+  </div>

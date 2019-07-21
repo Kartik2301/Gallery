@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+	<head>
+		
+	</head>
+	<body>
+		<h1>
+			Something went wrong with form submisson, here is a detailed analysis
+		</h1>
+		<h5>
+			Number of error detected = <%= array.length %>
+		</h5>
+		<ul>
+			<% array.forEach(function(error){ %>
+<li style="list-style-type: none; color:red;"> <%= error.param %>: <%= error.msg %></li>
+<% }) %>
+		</ul>
+		
+  </body>
+</html>

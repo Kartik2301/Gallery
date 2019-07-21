@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/stylesheets/collections.css">
+	<style>
+		img{
+			height:350px;
+			width:350px;
+		}
+	</style>
+</head>
+	
+<body>
+
+<div class="navbar">
+  <a href="/">Home</a>
+	<% if(!currentUser){ %>
+		<a href="/#myBtn">Log In</a>
+	<% } %>
+	<% if(currentUser){ %>
+		<a href="/users/<%= currentUser._id %>"><i class="fa fa-user" aria-hidden="true"></i> Your Profile</a>
+	<% } %>
+  <div class="dropdown">
+    <button class="dropbtn">Add Image 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <form class="dropdown-content" action="/collections" method="POST">
+  <input style="margin-top:12px;" type="text" name="image" placeholder="image url">
+ <input type="text" name="description"  placeholder="Brief description about the image">
+ <input type="submit" type="submit" value="Done">
+    </form>
+  </div> 
+	<form style="margin-left:70%" action="/collections" method="GET">
+		<input name="search" placeholder="Image search..." style="height:20px;width:300px;" id="generalSearch" name="search" placeholder="Enter tag or title">
+		<button class="fuzzybutton" type="submit">
+			Search
+		</button>
+	</form>
+</div>
+
+<div style="padding-left:16px">
+  <h2>Search your favorite images here</h2>
+	<form action="/results" method="GET">
+		<input id="generalSearch" name="search" placeholder="Enter tag or title">
+		<button type="submit" class="submitButton">
+			Search
+		</button>
+	</form>
+	</div>
+	<div class="container">
+	
+	<h1 class="heading">Image Gallery</span></h1>
+
+	<div class="gallery">
+		
+	<% imageUnit.forEach(function(img){ %>
+		<div class="gallery-item">
+			<% if(currentUser&&currentUser.id == img.author.id){ %>
+			<span id="span-tag" ><strong><a style="text-decoration:none;" href="/users/<%= img.author.id %>">you</a></strong> published it</span>
+			<% } else{ %>
+			<span id="span-tag" >Published by: <strong><a style="text-decoration:none;" href="/users/<%= img.author.id %>"><%= img.author.username %></a></strong></span>
+
+			<% } %>
+			<a href="/collections/<%= img._id %>"><img class="gallery-image" src="<%=img.image%>" title="<%= img.description %>"></a>
+		</div>
+	<% }) %>
+
+</div>
+
+</div>
+</body>
+</html>

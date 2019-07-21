@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+	<head>
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+	  <link rel="stylesheet" href="/stylesheets/showprofile.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+	<body>
+	
+<div class="topnav">
+  <a class="active" href="/">Home</a>
+  <a href="/collections">All Images</a>
+  <a href="">Add Images</a>
+	<% if(!currentUser){ %>
+	     <a class="pull-right" href="">Log In</a>
+	<% } else{ %>
+		 <a class="pull-right" href="/logout">Logout</a>
+	<% } %>
+  <div class="search-container">
+    <form action="/action_page.php">
+      <input type="text" placeholder="Search.." name="search">
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+  </div>
+</div>
+		<div class="container">
+		
+	<div class="row">
+	<div class="col-md-4">
+		
+			
+			<h1><%= user.firstname +" "+ user.lastname %></h1>
+		<div class="thumbnail">
+			<img src="<%= user.imageurl %>" alt="user profile image">
+			<div class="caption" style="text-align:center;">
+				<li><a href=""><%= user.email %></a></li>
+				<li>Username: <%= user.username %></li>
+				<% if(!currentUser){ %>
+					<p class="declarative">You need to be logged in to follow a publisher%></p>
+				<% } %>
+				<% var count = 0; %>
+				<% if(currentUser){ %>
+				<% user.followers.forEach(function(name){ %>
+	       			<% if(name.author.username === currentUser.username){  %>
+		     		<% count = 1; %>
+	     			<% } %>
+	 				<% }); %>
+	  			<% } %>
+				
+				 <% if(currentUser&&count == 0){%>
+				   <% if(currentUser.username === user.username){ %>
+				<% }else{ %>
+					<li style="list-style-type: none;"><form action="/users/<%= user._id %>/followers" method="POST">
+					<button style="" type="submit" class="btn btn-default "><i style="margin-right:2px;" class="glyphicon glyphicon-user" aria-hidden="true"></i>Follow</button>
+	  				</form></li>
+				<% } %>
+	            <% } else if(currentUser&&count == 1){ %>
+					<p class="declarative">You follow <%= user.firstname + " " + user.lastname %></p>
+				 <% } %>
+				
+			</div>
+		</div>
+		<%= user.desc %>
+		
+		<li id="followers-title" class="list-group-item">Followers</li>
+		<% for(var i=0;i<user.followers.length;i++){ %>
+			<li class="list-group-item"><a href="/users/<%= user.followers[i].author.id %>"><%= user.followers[i].author.username %></a></li>
+		<% } %>
+
+
+	</div>
+	<div class="col-md-8">
+		<% if(currentUser&&currentUser.username === user.username){ %>
+			<h3 style="text-align:center;">Images added by you</h3>
+		<% } else{ %>
+			<h3 style="text-align:center;">Images added by <%= user.username %></h3>
+		<% } %>
+		<div style="width:100%; text-align:center;" class="well">
+			<% images.forEach(function(image) { %>
+			  <a href="/collections/<%= image._id %>"><img class="img" src="<%= image.image %>"></a>
+		    <% }); %>
+		</div>
+	</div>
+</div>
+				
+		
+	</body>
+</html>

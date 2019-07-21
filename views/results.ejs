@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/stylesheets/results.css">
+</head>
+<body>
+
+<div style="padding-left:16px">
+  <h2>Here are the top results for: <strong><%= toSearch %></strong></h2>
+	  <button  onClick="location.href='/collections'" class="Goback">&laquo; Go Back</button>
+</div>
+	
+
+	
+<div class="row">
+	<% resultsArray.forEach(function(result){ %>
+	<div class="column">
+		<div class="hover12">
+		  <a href="<%= result.src.medium %>"><figure><img style="height:300px; width:300px" src="<%= result.src.medium %>"></figure></a>
+		</div>
+	</div>
+   <%})%>
+</div>
+
+	
+
+
+</body>
+</html>

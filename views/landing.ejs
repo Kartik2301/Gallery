@@ -1,0 +1,27 @@
+<% include ./partials/header %>
+<div class="center-stage">
+	<h2 style="color:#CCFF90;">
+		Welcome to your very own customisable Gallery
+	</h2>
+	<button style="color:#000;"class="btn" id="elementId" onClick="location.href='/collections'">Take a tour</button>
+	
+</div>
+<div class="images">
+	<% photoCollections.forEach(function(photo){ %>
+			<figure><img src=" <%= photo %> "></figure>
+	<% }) %>
+</div>
+<h1 class="home-title">
+  <span>So what are you waiting for, Create your Gallery now!</span>
+</h1>
+<div class="button-starter">
+	<div class="container">
+		<img  src="https://www.w3schools.com/howto/img_snow.jpg" alt="Snow">
+  <button  onClick="location.href='/signup'" class="bttn">Get Started</button>
+	</div>
+</div>
+
+
+
+
+<% include ./partials/footer %>
